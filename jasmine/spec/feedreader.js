@@ -21,9 +21,9 @@ $(function() {
          * allFeeds in app.js to be an empty array and refresh the
          * page?
          */
-        it('are defined', function() {
-            expect(allFeeds).toBeDefined();
+        it('variables are defined', function() {
             expect(allFeeds.length).not.toBe(0);
+            expect(allFeeds).toBeDefined();
         });
 
 
@@ -32,10 +32,10 @@ $(function() {
          * and that the URL is not empty.
          */
 
-         it('each have defined non-empty URL', function() {
+         it('each have defined URL and it is not empty', function() {
            for(var i = 0; i < allFeeds.length; i++) {
-              expect(allFeeds[i].url).toBeDefined();
               expect(allFeeds[i].url.length).not.toBe(0);
+              expect(allFeeds[i].url).toBeDefined();
             }
          });
 
@@ -45,10 +45,11 @@ $(function() {
          * and that the name is not empty.
          */
 
-         it('each have defined non-empty name', function() {
+         it('each have defined name and it is not empty', function() {
            for(var i = 0; i < allFeeds.length; i++) {
-              expect(allFeeds[i].name).toBeDefined();
               expect(allFeeds[i].name.length).not.toBe(0);
+              expect(allFeeds[i].name).toBeDefined();
+              
             }
          });
     });
@@ -56,9 +57,9 @@ $(function() {
 
     /* TODO: Write a new test suite named "The menu" */
     describe('The menu', function() {
-        // Add a matcher from a Jasmine extention jasmine-jquery: https://github.com/velesin/jasmine-jquery
-        beforeEach(function () {
-          jasmine.addMatchers({
+          beforeEach(function () {
+          jasmine.addMatchers (
+          {
             toHaveClass: function () {
               return  {
                 compare: function (actual, className) {
@@ -74,7 +75,7 @@ $(function() {
          * the CSS to determine how we're performing the
          * hiding/showing of the menu element.
          */
-         it('element is hidden by default', function() {
+         it('by default it is hidden', function() {
            expect($('body')).toHaveClass('menu-hidden');
          });
 
@@ -83,18 +84,20 @@ $(function() {
           * should have two expectations: does the menu display when
           * clicked and does it hide when clicked again.
           */
-          it('displays when clicked and hides when clicked again', function() {
-            var menuIcon = $('.menu-icon-link');
-            menuIcon.click();
+          it('display menu when clicked & again hide when clicked again', function() {
+            var menu = $('.menu-icon-link');
+            menu.click();
             expect($('body')).not.toHaveClass('menu-hidden');
-            menuIcon.click();
+            menu.click();
             expect($('body')).toHaveClass('menu-hidden');
          });
     });
 
     /* TODO: Write a new test suite named "Initial Entries" */
-    describe('Initial Entries', function() {
-        beforeEach(function(done) {
+    describe('Initial Entries', function() 
+    {
+        beforeEach(function(done) 
+        {
             loadFeed(0, done);
         });
 
@@ -104,22 +107,20 @@ $(function() {
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
-         it('can be loaded', function() {
+         it('loadFeed can be loaded', function() {
            expect($('.feed .entry').length).not.toBeLessThan(1);
          });
     });
 
     /* TODO: Write a new test suite named "New Feed Selection" */
     describe('New Feed Selection', function() {
-        var feedContent, newFeedContent;
+        var savedFeedContent, latestFeedContent;
 
         beforeEach(function(done) {
-            // save original content
             loadFeed(0, function() {
-            feedContent = $('.feed').children().text();
-            // call loadFeed again and save new content
+            savedFeedContent = $('.feed').children().text();
             loadFeed(1, function() {
-              newFeedContent = $('.feed').children().text();
+              latestFeedContent = $('.feed').children().text();
               done();
             });
         });
@@ -129,9 +130,9 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-         it('changes content', function() {
+         it('content actually changes', function() {
            
-           expect(newFeedContent).not.toBe(feedContent);
+           expect(latestFeedContent).not.toBe(savedFeedContent);
          });
     });
 }());
